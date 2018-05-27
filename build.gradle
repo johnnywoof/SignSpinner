@@ -1,0 +1,59 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group 'me.johnnywoof'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+
+    jcenter()
+
+    maven {
+        name 'Spigot Repo'
+        url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+    }
+
+    // Used for bungeecord chat API in spigot
+    maven {
+        name 'Sonatype'
+        url 'https://oss.sonatype.org/content/repositories/snapshots/'
+    }
+
+}
+
+dependencies {
+    compile (group: 'org.spigotmc', name: 'spigot-api', version: '1.12.2-R0.1-SNAPSHOT')
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include '**/*.yml'
+        // replace version and mcversion
+        expand 'version': project.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude '**/*.yml'
+    }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "file://localhost/tmp/repo/")
+        }
+    }
+}
