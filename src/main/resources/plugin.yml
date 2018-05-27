@@ -1,0 +1,3 @@
+name: SignSpinner
+version: '$version'
+main: me.johnnywoof.signspinner.SignSpinner

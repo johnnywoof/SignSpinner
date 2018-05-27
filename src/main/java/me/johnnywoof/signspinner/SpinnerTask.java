@@ -3,8 +3,6 @@ package me.johnnywoof.signspinner;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
-import org.bukkit.material.Directional;
-import org.bukkit.material.MaterialData;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class SpinnerTask extends BukkitRunnable {
@@ -21,17 +19,14 @@ public class SpinnerTask extends BukkitRunnable {
 
         if (state instanceof Sign) {
 
-            MaterialData data = state.getData();
+            byte data = state.getRawData();
 
-            if (data instanceof Directional) {
+            if (++data > 15)
+                data = 0;
 
-                Directional directional = (Directional) data;
+            state.setRawData(data);
 
-                directional.setFacingDirection(directional.getFacing().getOppositeFace());
-
-                state.update();
-
-            }
+            state.update(true, false);
 
         } else {
 

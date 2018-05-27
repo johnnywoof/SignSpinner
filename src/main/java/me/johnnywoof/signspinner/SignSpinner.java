@@ -23,7 +23,7 @@ public class SignSpinner extends JavaPlugin implements Listener {
                 && event.getClickedBlock().getType() == Material.SIGN_POST
                 && event.getPlayer().hasPermission("signspinner.spin")) {
 
-            new SpinnerTask(event.getClickedBlock()).runTaskTimer(this, 0, 20);
+            new SpinnerTask(event.getClickedBlock()).runTaskTimer(this, 0, 5);
 
         }
 
